@@ -2,6 +2,66 @@ let transaksi = [];
 
 const formTransaksi = document.getElementById("formTransaksi");
 
+function rupiah(nominal) {
+  return nominal.toLocaleString("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  });
+}
+
+function renderDaftar() {
+  const daftar = document.getElementById("daftarTransaksi");
+
+  daftar.replaceChildren();
+
+  const terbaru = [...transaksi].sort((a, b) => b.id - a.id);
+
+  terbaru.forEach(function (item) {
+    const kartu = document.createElement("div");
+    kartu.className = "transaksi";
+
+    const judul = document.createElement("h3");
+    judul.textContent = item.jenis;
+
+    const tanggal = document.createElement("p");
+    tanggal.textContent = "Tanggal: " + item.tanggal;
+
+    const kategori = document.createElement("p");
+    kategori.textContent = "Kategori: " + item.kategori;
+
+    const nominal = document.createElement("p");
+    nominal.textContent = "Nominal: " + rupiah(item.nominal);
+
+    kartu.append(judul, tanggal, kategori, nominal);
+
+    if (item.catatan) {
+      const catatan = document.createElement("p");
+      catatan.textContent = "Catatan: " + item.catatan;
+      kartu.appendChild(catatan);
+    }
+
+    const tombolHapus = document.createElement("button");
+    tombolHapus.textContent = "Hapus Transaksi";
+
+    tombolHapus.addEventListener("click", function () {
+      const yakin = confirm("Yakin ingin menghapus transaksi ini?");
+
+      if (yakin) {
+        transaksi = transaksi.filter(function (t) {
+          return t.id !== item.id;
+        });
+
+        renderDaftar();
+      }
+    });
+
+    kartu.appendChild(tombolHapus);
+
+    daftar.appendChild(kartu);
+  });
+}
+
 formTransaksi.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -22,7 +82,7 @@ formTransaksi.addEventListener("submit", function (event) {
 
   transaksi.push(dataBaru);
 
-  console.log(transaksi);
+  renderDaftar();
 
   formTransaksi.reset();
 });
