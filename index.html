@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Money Manager - Anggaran Rumah Tangga</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <header>
+        <h1>Money Manager</h1>
+        <p>Atur uang belanja keluarga dengan mudah.</p>
+    </header>
+
+    <main>
+        <!-- Ringkasan keuangan -->
+        <section class="ringkasan">
+            <div class="kartu">
+                <h3>Pemasukan</h3>
+                <p id="totalPemasukan">Rp0</p>
+            </div>
+
+            <div class="kartu">
+                <h3>Pengeluaran</h3>
+                <p id="totalPengeluaran">Rp0</p>
+            </div>
+
+            <div class="kartu">
+                <h3>Saldo</h3>
+                <p id="saldo">Rp0</p>
+            </div>
+        </section>
+
+        <!-- Mengatur anggaran amplop -->
+        <section>
+            <h2>Anggaran Amplop</h2>
+
+            <form id="formAmplop">
+                <label for="namaAmplop">Nama amplop</label>
+                <input id="namaAmplop" type="text"
+                       placeholder="Contoh: Belanja Dapur" required>
+
+                <label for="nominalAmplop">Nominal anggaran (Rp)</label>
+                <input id="nominalAmplop" type="number"
+                       min="1" required>
+
+                <button type="submit">Tambah Amplop</button>
+                <p id="errorAmplop" class="error"></p>
+            </form>
+
+            <div id="daftarAmplop" class="daftar-amplop"></div>
+        </section>
+
+        <!-- Menambah transaksi -->
+        <section>
+            <h2>Tambah Transaksi</h2>
+
+            <form id="formTransaksi">
+                <label for="tanggal">Tanggal</label>
+                <input id="tanggal" type="date" required>
+
+                <label for="jenis">Jenis transaksi</label>
+                <select id="jenis" required>
+                    <option value="pengeluaran">Pengeluaran</option>
+                    <option value="pemasukan">Pemasukan</option>
+                </select>
+
+                <label for="kategori">Kategori</label>
+                <select id="kategori" required>
+                    <option value="Belanja Dapur">Belanja Dapur</option>
+                    <option value="Transportasi">Transportasi</option>
+                    <option value="Kebutuhan Rumah">Kebutuhan Rumah</option>
+                    <option value="Pendidikan Anak">Pendidikan Anak</option>
+                    <option value="Gaji">Gaji / Pemasukan</option>
+                    <option value="Lainnya">Lainnya</option>
+                </select>
+
+                <label for="amplopTransaksi">Amplop terkait</label>
+                <select id="amplopTransaksi">
+                    <option value="">Pilih amplop</option>
+                </select>
+
+                <label for="nominal">Nominal (Rp)</label>
+                <input id="nominal" type="number" min="1" required>
+
+                <label for="catatan">Catatan (opsional)</label>
+                <input id="catatan" type="text"
+                       placeholder="Contoh: Beli beras dan telur">
+
+                <button type="submit">Simpan Transaksi</button>
+                <p id="errorTransaksi" class="error"></p>
+            </form>
+        </section>
+
+        <!-- Daftar transaksi -->
+        <section>
+            <h2>Riwayat Transaksi</h2>
+            <div id="daftarTransaksi"></div>
+        </section>
+    </main>
+
+    <footer>
+        <p>Money Manager &copy; 2026</p>
+    </footer>
+</body>
+</html>
