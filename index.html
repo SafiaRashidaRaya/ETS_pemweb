@@ -1,104 +1,165 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Money Manager - Anggaran Rumah Tangga</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="script.js" defer></script>
-</head>
-<body>
+  </head>
+  <body>
     <header>
-        <h1>Money Manager</h1>
-        <p>Atur uang belanja keluarga dengan mudah.</p>
+      <h1>Money Manager</h1>
+      <p>Atur uang belanja keluarga dengan mudah.</p>
     </header>
 
     <main>
-        <section class="ringkasan">
-            <div class="kartu">
-                <h3>Pemasukan</h3>
-                <p id="totalPemasukan">Rp0</p>
+      <section class="ringkasan">
+        <div class="kartu">
+          <h3>Pemasukan</h3>
+          <p id="totalPemasukan">Rp0</p>
+        </div>
+
+        <div class="kartu">
+          <h3>Pengeluaran</h3>
+          <p id="totalPengeluaran">Rp0</p>
+        </div>
+
+        <div class="kartu">
+          <h3>Saldo</h3>
+          <p id="saldo">Rp0</p>
+        </div>
+      </section>
+
+      <section>
+        <h2>Anggaran Amplop Bulanan</h2>
+        <p>Bagi uang belanja ke beberapa pos kebutuhan.</p>
+
+        <form id="formAmplop" novalidate>
+          <label for="namaAmplop">Nama amplop</label>
+          <input
+            type="text"
+            id="namaAmplop"
+            placeholder="Contoh: Makan"
+            required
+          />
+
+          <label for="nominalAmplop">Anggaran (Rp)</label>
+          <input
+            type="number"
+            id="nominalAmplop"
+            min="1"
+            placeholder="Contoh: 1000000"
+            required
+          />
+
+          <p id="errorAmplop" class="error"></p>
+          <button type="submit">Tambah Amplop</button>
+        </form>
+
+        <div id="daftarAmplop" class="daftar-amplop"></div>
+      </section>
+
+      <section>
+        <h2 id="judulForm">Tambah Transaksi</h2>
+
+        <form id="formTransaksi" novalidate>
+          <label for="tanggal">Tanggal</label>
+          <input id="tanggal" type="date" required />
+
+          <label for="jenis">Jenis transaksi</label>
+          <select id="jenis" required>
+            <option value="pengeluaran">Pengeluaran</option>
+            <option value="pemasukan">Pemasukan</option>
+          </select>
+
+          <label for="kategori">Kategori</label>
+          <select id="kategori" required>
+            <option value="">-- Pilih Kategori --</option>
+            <option value="Belanja Dapur">Belanja Dapur</option>
+            <option value="Transportasi">Transportasi</option>
+            <option value="Kebutuhan Rumah">Kebutuhan Rumah</option>
+            <option value="Pendidikan Anak">Pendidikan Anak</option>
+            <option value="Gaji">Gaji / Pemasukan</option>
+            <option value="Lainnya">Lainnya</option>
+          </select>
+
+          <label for="amplopTransaksi">Amplop Pengeluaran</label>
+          <select id="amplopTransaksi">
+            <option value="">-- Pilih Amplop --</option>
+          </select>
+          <p>Wajib dipilih jika jenis transaksi adalah pengeluaran.</p>
+
+          <label for="nominal">Nominal (Rp)</label>
+          <input id="nominal" type="number" min="1" required />
+
+          <label for="catatan">Catatan (opsional)</label>
+          <input
+            id="catatan"
+            type="text"
+            placeholder="Contoh: Beli beras dan telur"
+          />
+
+          <button type="submit" id="tombolSimpan">Simpan Transaksi</button>
+          <button
+            type="button"
+            id="tombolBatal"
+            class="tombol-sekunder"
+            hidden
+          >
+            Batal Edit
+          </button>
+          <p id="errorTransaksi" class="error"></p>
+        </form>
+      </section>
+
+      <section>
+        <h2>Riwayat Transaksi</h2>
+
+        <div class="filter">
+          <div class="filter-grid">
+            <div>
+              <label for="filterJenis">Jenis</label>
+              <select id="filterJenis">
+                <option value="">Semua jenis</option>
+                <option value="pemasukan">Pemasukan</option>
+                <option value="pengeluaran">Pengeluaran</option>
+              </select>
             </div>
 
-            <div class="kartu">
-                <h3>Pengeluaran</h3>
-                <p id="totalPengeluaran">Rp0</p>
+            <div>
+              <label for="filterKategori">Kategori</label>
+              <select id="filterKategori">
+                <option value="">Semua kategori</option>
+              </select>
             </div>
 
-            <div class="kartu">
-                <h3>Saldo</h3>
-                <p id="saldo">Rp0</p>
+            <div>
+              <label for="filterDari">Dari tanggal</label>
+              <input id="filterDari" type="date" />
             </div>
-        </section>
 
-        <section>
-            <h2>Anggaran Amplop</h2>
+            <div>
+              <label for="filterSampai">Sampai tanggal</label>
+              <input id="filterSampai" type="date" />
+            </div>
+          </div>
 
-            <form id="formAmplop">
-                <label for="namaAmplop">Nama amplop</label>
-                <input id="namaAmplop" type="text"
-                       placeholder="Contoh: Belanja Dapur" required>
+          <label for="filterCari">Cari di catatan</label>
+          <input id="filterCari" type="search" placeholder="Contoh: beras" />
 
-                <label for="nominalAmplop">Nominal anggaran (Rp)</label>
-                <input id="nominalAmplop" type="number"
-                       min="1" required>
+          <button type="button" id="tombolResetFilter" class="tombol-sekunder">
+            Reset Filter
+          </button>
+          <p id="infoFilter" class="info-filter"></p>
+        </div>
 
-                <button type="submit">Tambah Amplop</button>
-                <p id="errorAmplop" class="error"></p>
-            </form>
-
-            <div id="daftarAmplop" class="daftar-amplop"></div>
-        </section>
-
-        <section>
-            <h2>Tambah Transaksi</h2>
-
-            <form id="formTransaksi" novalidate>
-                <label for="tanggal">Tanggal</label>
-                <input id="tanggal" type="date" required>
-
-                <label for="jenis">Jenis transaksi</label>
-                <select id="jenis" required>
-                    <option value="pengeluaran">Pengeluaran</option>
-                    <option value="pemasukan">Pemasukan</option>
-                </select>
-
-                <label for="kategori">Kategori</label>
-                <select id="kategori" required>
-                    <option value="Belanja Dapur">Belanja Dapur</option>
-                    <option value="Transportasi">Transportasi</option>
-                    <option value="Kebutuhan Rumah">Kebutuhan Rumah</option>
-                    <option value="Pendidikan Anak">Pendidikan Anak</option>
-                    <option value="Gaji">Gaji / Pemasukan</option>
-                    <option value="Lainnya">Lainnya</option>
-                </select>
-
-                <label for="amplopTransaksi">Amplop terkait</label>
-                <select id="amplopTransaksi">
-                    <option value="">Pilih amplop</option>
-                </select>
-
-                <label for="nominal">Nominal (Rp)</label>
-                <input id="nominal" type="number" min="1" required>
-
-                <label for="catatan">Catatan (opsional)</label>
-                <input id="catatan" type="text"
-                       placeholder="Contoh: Beli beras dan telur">
-
-                <button type="submit">Simpan Transaksi</button>
-                <p id="errorTransaksi" class="error"></p>
-            </form>
-        </section>
-
-        <section>
-            <h2>Riwayat Transaksi</h2>
-            <div id="daftarTransaksi"></div>
-        </section>
+        <div id="daftarTransaksi"></div>
+      </section>
     </main>
 
     <footer>
-        <p>Money Manager &copy; 2026</p>
+      <p>Money Manager &copy; 2026</p>
     </footer>
-</body>
+  </body>
 </html>
